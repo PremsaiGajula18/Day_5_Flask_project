@@ -1,0 +1,2 @@
+1.create this registration form and submit data to server and display data in aneother page in a list .
+2.implement this form submission in JS and backend logic
