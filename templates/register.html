@@ -1,62 +1,186 @@
 {% extends "base.html" %}
 
-{% block title %}Student Registration Form{% endblock %}
+{% block title %}Student registration{% endblock %}
 
 {% block content %}
-    <h2> Student Registration Form</h2>
-    <p class="subtitle">Fill in your details to register</p>
+    <h1 class="page-title">Student registration</h1>
+    <p class="required-note">Fields marked * are required.</p>
 
-    <!-- Success / Error Message Box -->
-    <div id="message" class="message" style="display: none;"></div>
+    <!-- Dynamic feedback message box -->
+    <div id="message" class="message-banner" style="display: none;"></div>
 
-    <!-- Registration Form -->
-    <form id="registrationForm">
+    <form id="registrationForm" novalidate>
 
+        <!-- 1. Full name * -->
         <div class="form-group">
-            <label for="name">Full Name <span class="required">*</span></label>
-            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            <label for="name">Full name *</label>
+            <input type="text" id="name" name="name" required autocomplete="name">
+            <div class="field-error" id="err-name"></div>
         </div>
 
+        <!-- 2. Email * -->
         <div class="form-group">
-            <label for="email">Email Address <span class="required">*</span></label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+            <div class="field-error" id="err-email"></div>
         </div>
 
+        <!-- 3. Mobile number * -->
         <div class="form-group">
-            <label for="phone">Phone Number <span class="required">*</span></label>
-            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+            <label for="phone">Mobile number *</label>
+            <input type="tel" id="phone" name="phone" required autocomplete="tel">
+            <div class="field-error" id="err-phone"></div>
         </div>
 
+        <!-- 4. Date of birth * -->
         <div class="form-group">
-            <label for="course">Select Course <span class="required">*</span></label>
-            <select id="course" name="course" required>
-                <option value="">-- Choose a Course --</option>
-                <option value="Python">Python</option>
-                <option value="Flask">Flask Web Development</option>
-                <option value="MySQL">MySQL</option>
-                <option value="MongoDB">MongoDB</option>
-                <option value="HTML & CSS">HTML & CSS</option>
-                <option value="JavaScript">JavaScript</option>
-                <option value="Full Stack">Full Stack Development</option>
-            </select>
+            <label for="dob">Date of birth *</label>
+            <input type="date" id="dob" name="dob" required>
+            <div class="field-error" id="err-dob"></div>
         </div>
 
-        <div class="form-group">
-            <label>Gender</label>
-            <div class="radio-group">
+        <!-- 5. Gender * -->
+        <fieldset class="form-fieldset">
+            <legend>Gender *</legend>
+            <div class="radio-options">
                 <label class="radio-label">
-                    <input type="radio" name="gender" value="Male"> Male
+                    <input type="radio" name="gender" value="Female" required> Female
                 </label>
                 <label class="radio-label">
-                    <input type="radio" name="gender" value="Female"> Female
+                    <input type="radio" name="gender" value="Male" required> Male
                 </label>
                 <label class="radio-label">
-                    <input type="radio" name="gender" value="Other"> Other
+                    <input type="radio" name="gender" value="Other" required> Other
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="gender" value="Prefer not to say" required> Prefer not to say
                 </label>
             </div>
+            <div class="field-error" id="err-gender"></div>
+        </fieldset>
+
+        <!-- 6. Course * -->
+        <div class="form-group">
+            <label for="course">Course *</label>
+            <select id="course" name="course" required>
+                <option value="">Choose</option>
+                <option value="Python">Python</option>
+                <option value="Flask Web Development">Flask Web Development</option>
+                <option value="Full Stack Development">Full Stack Development</option>
+                <option value="MySQL Database">MySQL Database</option>
+                <option value="MongoDB">MongoDB</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Frontend Development">Frontend Development</option>
+            </select>
+            <div class="field-error" id="err-course"></div>
         </div>
 
-        <button type="submit" class="btn-submit">Register</button>
+        <!-- 7. Qualification * -->
+        <div class="form-group">
+            <label for="qualification">Qualification *</label>
+            <select id="qualification" name="qualification" required>
+                <option value="">Choose</option>
+                <option value="B.Tech / B.E">B.Tech / B.E</option>
+                <option value="B.Sc Computer Science">B.Sc Computer Science</option>
+                <option value="BCA">BCA</option>
+                <option value="MCA">MCA</option>
+                <option value="M.Tech">M.Tech</option>
+                <option value="Degree / Graduate">Degree / Graduate</option>
+                <option value="Diploma">Diploma</option>
+                <option value="Intermediate / 12th">Intermediate / 12th</option>
+                <option value="Other">Other</option>
+            </select>
+            <div class="field-error" id="err-qualification"></div>
+        </div>
+
+        <!-- 8. Training mode * -->
+        <fieldset class="form-fieldset">
+            <legend>Training mode *</legend>
+            <div class="radio-options">
+                <label class="radio-label">
+                    <input type="radio" name="training_mode" value="Online" required> Online
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="training_mode" value="Offline" required> Offline
+                </label>
+            </div>
+            <div class="field-error" id="err-training_mode"></div>
+        </fieldset>
+
+        <!-- 9. Skills * (choose at least one) -->
+        <fieldset class="form-fieldset">
+            <legend>Skills * (choose at least one)</legend>
+            <div class="checkbox-options">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="skills" value="HTML"> HTML
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="skills" value="CSS"> CSS
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="skills" value="JavaScript"> JavaScript
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="skills" value="Python"> Python
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="skills" value="SQL"> SQL
+                </label>
+            </div>
+            <div class="field-error" id="err-skills"></div>
+        </fieldset>
+
+        <!-- 10. Years of experience * -->
+        <div class="form-group">
+            <label for="experience">Years of experience *</label>
+            <input type="number" id="experience" name="experience" value="0" min="0" required>
+            <div class="field-error" id="err-experience"></div>
+        </div>
+
+        <!-- 11. Address * -->
+        <div class="form-group">
+            <label for="address">Address *</label>
+            <textarea id="address" name="address" rows="4" required></textarea>
+            <div class="field-error" id="err-address"></div>
+        </div>
+
+        <!-- 12. Website (optional) -->
+        <div class="form-group">
+            <label for="website">Website (optional)</label>
+            <input type="url" id="website" name="website" placeholder="https://example.com">
+            <div class="field-error" id="err-website"></div>
+        </div>
+
+        <!-- 13. Photo (optional, JPEG or PNG, under 2 MB) -->
+        <div class="form-group">
+            <label for="photo">Photo (optional, JPEG or PNG, under 2 MB)</label>
+            <input type="file" id="photo" name="photo" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+            <div class="field-error" id="err-photo"></div>
+        </div>
+
+        <!-- 14. Password * -->
+        <div class="form-group">
+            <label for="password">Password *</label>
+            <input type="password" id="password" name="password" required autocomplete="new-password">
+            <div class="field-error" id="err-password"></div>
+        </div>
+
+        <!-- 15. Confirm password * -->
+        <div class="form-group">
+            <label for="confirm_password">Confirm password *</label>
+            <input type="password" id="confirm_password" name="confirm_password" required autocomplete="new-password">
+            <div class="field-error" id="err-confirm_password"></div>
+        </div>
+
+        <!-- 16 & 17. Agreement checkbox * and Create registration Button -->
+        <div class="action-row">
+            <label class="agreement-label">
+                <input type="checkbox" id="agree" name="agree" required> I agree to register *
+            </label>
+            <button type="submit" class="btn-create" id="submitBtn">Create registration</button>
+        </div>
+        <div class="field-error" id="err-agree"></div>
+
     </form>
 {% endblock %}
 

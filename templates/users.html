@@ -1,43 +1,76 @@
 {% extends "base.html" %}
 
-{% block title %}Registered Users{% endblock %}
+{% block title %}All students{% endblock %}
 
 {% block content %}
-    <h2> Registered Users List</h2>
-    <p class="subtitle">All students who have registered</p>
+    <h1 class="page-title">Registered Students</h1>
+    <p class="required-note">Total registered: <strong>{{ users | length }}</strong></p>
 
     {% if users %}
-    <div class="user-count">Total Registered: <strong>{{ users | length }}</strong></div>
-
-    <table class="users-table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Course</th>
-                <th>Gender</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.phone }}</td>
-                <td>{{ user.course }}</td>
-                <td>{{ user.gender }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
+    <div class="table-responsive">
+        <table class="students-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>DOB</th>
+                    <th>Gender</th>
+                    <th>Course</th>
+                    <th>Qualification</th>
+                    <th>Mode</th>
+                    <th>Skills</th>
+                    <th>Exp (yrs)</th>
+                    <th>Address</th>
+                    <th>Website</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td>{{ u.id }}</td>
+                    <td style="text-align: center;">
+                        {% if u.photo %}
+                        <a href="{{ url_for('static', filename='uploads/' + u.photo) }}" target="_blank" title="Click to view full photo">
+                            <img src="{{ url_for('static', filename='uploads/' + u.photo) }}" alt="Photo" class="student-photo-thumb">
+                        </a>
+                        {% else %}
+                        <span class="no-photo-avatar" title="No photo uploaded">👤</span>
+                        {% endif %}
+                    </td>
+                    <td><strong>{{ u.name }}</strong></td>
+                    <td><a href="mailto:{{ u.email }}">{{ u.email }}</a></td>
+                    <td>{{ u.phone }}</td>
+                    <td>{{ u.dob or '-' }}</td>
+                    <td>{{ u.gender or '-' }}</td>
+                    <td><span class="badge badge-course">{{ u.course }}</span></td>
+                    <td>{{ u.qualification or '-' }}</td>
+                    <td>{{ u.training_mode or '-' }}</td>
+                    <td>{{ u.skills or '-' }}</td>
+                    <td>{{ u.experience if u.experience is not none else '0' }}</td>
+                    <td class="cell-address" title="{{ u.address }}">{{ u.address or '-' }}</td>
+                    <td>
+                        {% if u.website %}
+                        <a href="{{ u.website }}" target="_blank" rel="noopener">Link</a>
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% else %}
-    <div class="no-users">
-        <p> No users registered yet.</p>
-        <p>Go to the registration form and add some users!</p>
+    <div class="empty-state">
+        <p>No students registered yet.</p>
+        <p><a href="{{ url_for('register_page') }}">Click here to register a student</a></p>
     </div>
     {% endif %}
+
+    <div style="margin-top: 24px;">
+        <a href="{{ url_for('register_page') }}" class="btn-create" style="display: inline-block; text-decoration: none;">+ Register new student</a>
+    </div>
 {% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %} {% block title %}Home | Story App{% endblock %} {%
+block content %}
+<h1>Story App</h1>
+<p>Write and read stories.</p>
+<h2>Add a story</h2>
+{% if error %}
+<p class="error" role="alert">{{ error }}</p>
+{% endif %}
+<!-- A normal POST sends these fields to the home route in app.py. -->
+<form method="post" action="{{ url_for('home') }}">
+  <p>
+    <label
+      >Title <input name="title" required value="{{ form.get('title', '') }}"
+    /></label>
+  </p>
+  <p>
+    <label
+      >Author
+      <input name="author" required value="{{ form.get('author', '') }}"
+    /></label>
+  </p>
+  <p>
+    <label
+      >Story
+      <textarea name="story" rows="6" required>
+{{ form.get('story', '') }}</textarea
+      >
+    </label>
+  </p>
+  <button type="submit">Add story</button>
+</form>
+
+<h2>Stories</h2>
+<p>Total stories: {{ stories | length }}</p>
+{% if stories %}
+<ul class="story-list">
+  {% for story in stories %}
+  <li>
+    <strong>{{ story['title'] }}</strong> by {{ story['author'] }}
+    <p class="story-text">{{ story['story'] }}</p>
+    <div class="story-actions">
+      <a href="{{ url_for('edit_story', story_id=story['id']) }}">Edit</a>
+      <form
+        class="inline-form"
+        method="post"
+        action="{{ url_for('delete_story', story_id=story['id']) }}"
+      >
+        <button
+          class="delete-button"
+          type="submit"
+          style="
+            background-color: #dc3545;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px;
+            cursor: pointer;
+          "
+        >
+          Delete
+        </button>
+      </form>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No stories yet.</p>
+{% endif %}
+{% endblock %}
